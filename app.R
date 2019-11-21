@@ -1,10 +1,11 @@
 library(shiny)
+library(leaflet)
 
 # Define UI for app that draws a histogram ----
 ui <- fluidPage(
   
   # App title ----
-  titlePanel("Quick map!"),
+  titlePanel("Quick map"),
   
   # Sidebar layout with input and output definitions ----
   sidebarLayout(
@@ -13,6 +14,7 @@ ui <- fluidPage(
     sidebarPanel(
       
       # Input: Slider for the number of bins ----
+      helpText("Make sure you have 'LONGDEC' and 'LATDEC' fields"),
       fileInput("file1", NULL, multiple = FALSE, accept = (".csv"))
       
     ),
@@ -31,10 +33,34 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram ----
 server <- function(input, output) {
-  
-#
 
+# prepare the points
+  pointsInput <- eventReactive(input$file1, {
+    
+    df <- read.csv(input$file1$datapath)
+    
+  })
   
+  
+    
+# output map
+  output$mymap <- renderLeaflet({
+    #df <- mapInput()
+    #sptdwg = tdwg.dist = check.tdwg(input$powo)
+    #sptdwg = merge(TDWG_polys, tdwg.dist)
+    
+    data = pointsInput()
+    
+    leaflet(data = data) %>%
+      
+      addCircleMarkers(lng = ~LONGDEC,
+                       lat = ~LATDEC, radius = 4, color = "green") %>%
+      addProviderTiles(providers$OpenStreetMap,
+                     options = providerTileOptions(noWrap = TRUE)) 
+      
+
+})
 }
+
 # Run the application 
 shinyApp(ui = ui, server = server)
