@@ -1,2 +1,2 @@
-# quickmap
-takes lats and longs and makes a quick map
+# Quick map
+Takes 'LONGDEC' and 'LATDEC fields and makes a simple dot map using leaflet.

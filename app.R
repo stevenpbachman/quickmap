@@ -1,5 +1,7 @@
 library(shiny)
 library(leaflet)
+#devtools::install_github('rstudio/httpuv@wch-print-req')
+#library(rsconnect)
 
 # Define UI for app that draws a histogram ----
 ui <- fluidPage(
@@ -24,7 +26,7 @@ ui <- fluidPage(
       
       # Output: Histogram ----
       #plotOutput(outputId = "distPlot")
-      leaflet::leafletOutput("mymap", width = "100%", height = 400)
+      leaflet::leafletOutput("mymap", width = "100%", height = 600)
 
       
     )
@@ -37,7 +39,7 @@ server <- function(input, output) {
 # prepare the points
   pointsInput <- eventReactive(input$file1, {
     
-    df <- read.csv(input$file1$datapath)
+    df <- read.csv(input$file1$datapath, encoding = 'UTF-8')
     
   })
   
@@ -54,8 +56,8 @@ server <- function(input, output) {
     leaflet(data = data) %>%
       
       addCircleMarkers(lng = ~LONGDEC,
-                       lat = ~LATDEC, radius = 4, color = "green") %>%
-      addProviderTiles(providers$OpenStreetMap,
+                       lat = ~LATDEC, radius = 4, color = "red") %>%
+      addProviderTiles(providers$Esri.WorldImagery,
                      options = providerTileOptions(noWrap = TRUE)) 
       
 
