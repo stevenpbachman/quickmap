@@ -39,7 +39,7 @@ server <- function(input, output) {
 # prepare the points
   pointsInput <- eventReactive(input$file1, {
     
-    df <- read.csv(input$file1$datapath, encoding = 'UTF-8')
+    df <- read.csv(input$file1$datapath) #encoding = 'UTF-8')
     
   })
   
@@ -56,7 +56,13 @@ server <- function(input, output) {
     leaflet(data = data) %>%
       
       addCircleMarkers(lng = ~LONGDEC,
-                       lat = ~LATDEC, radius = 4, color = "red") %>%
+                       lat = ~LATDEC, 
+                       radius = 4, 
+                       color = "red",
+                       popup = ~paste("Collector:", COLLECTOR, "<br>",
+                                      "Number:",NUMBER, "<br>",
+                                      "Collection year:", YEAR)) %>%
+      
       addProviderTiles(providers$Esri.WorldImagery,
                      options = providerTileOptions(noWrap = TRUE)) 
       
