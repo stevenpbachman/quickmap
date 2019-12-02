@@ -16,7 +16,7 @@ ui <- fluidPage(
     sidebarPanel(
       
       # Input: Slider for the number of bins ----
-      helpText("Make sure you have 'LONGDEC' and 'LATDEC' fields"),
+      helpText("the CSV must have 'LONGDEC' and 'LATDEC' fields, and will also accept fields for COLLECTOR,	NUMBER, and	YEAR."),
       fileInput("file1", NULL, multiple = FALSE, accept = (".csv"))
       
     ),
